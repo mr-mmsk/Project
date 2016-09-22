@@ -2,14 +2,20 @@
 
 Summary - 
 
-The Visualization gives you an idea of percentage of flights on time/delayed in US.
+The Visualization gives you an idea of percentage of flights on time/delayed in US. based on the visualization there are about 
 
 
 Design - 
 
+Chose to do a map since it will be a great learning opputunity and also when you think about flight location comes to mind. The map is circled with all the airports from USA and city names can be observed when you do a mouse over.
 Added percentage to all the categories (ontime/Delayed),
 Added colors to the buttons in accordance with the flight route,
 Displayed the city names for the circles.
+I chose to display 4 categories,
+  • On time or arrived early - I chose Green color for arrived on time because this color usually referenced as normal.
+  • delayed < 1 hr - I chose purple color for delayed flights < 1hr as less intense.
+  • delayed > 1 hrs & < than 2 hrs - I chose brown to signify the intensity is building up.
+  • delayed > 2 - I chose red color for delayed flights because this color usually referenced as warning
 
 
 Feedback - 
