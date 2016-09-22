@@ -303,76 +303,67 @@
 
 	function mouseoverd(d) {
 	  d3.select(this).style("fill", "white");
-        var mousecoord = [0,0];
-            mousecoord = d3.mouse(this);
-        debugger;
-			  var flag = 0;
-
-        var text1 = svg.append('g')
-              .selectAll("text")
-              .data(nestedd)
-              .enter()
-              .append("text")
-              .attr("id", "myText")
-			        .attr("x", mousecoord[0])
-              .attr("y", mousecoord[1])
-		          .attr("dy", -7) 							   // set y position of bottom of text
-              .style("fill", "black") 				 // fill the text with the colour black
-              .attr("text-anchor", "middle") 	 // set anchor y justification
-		          .text(function(d) {
-				      if ((Math.abs(d.values['x'] - mousecoord[0]) < 5) &&
-                  (Math.abs(d.values['y'] - mousecoord[1]) < 5) &&
-                  (flag == 0))
-				      {
-      					flag = 1;
-      					return d.values['city'][0];
-      				}
-									}); // define the text to display
-        debugger;
-        };
+	  var mousecoord = [0,0];
+	  mousecoord = d3.mouse(this);
+	  var flag = 0;
+	  var text1 = svg.append('g')
+	  		 .selectAll("text")
+	  		 .data(nestedd)
+	  		 .enter()
+	  		 .append("text")
+	  		 .attr("id", "myText")
+	  		 .attr("x", mousecoord[0])
+	  		 .attr("y", mousecoord[1])
+	  		 .attr("dy", -7) 	    	// set y position of bottom of text
+	  		 .style("fill", "black")	// fill the text with the colour black
+	  		 .attr("text-anchor", "middle") // set anchor y justification
+	  		 .text(function(d) {
+	  		   if ((Math.abs(d.values['x'] - mousecoord[0]) < 5) &&
+	  		     (Math.abs(d.values['y'] - mousecoord[1]) < 5) &&
+	  		     (flag == 0)) {
+	  		       flag = 1;
+	  		       return d.values['city'][0];
+	  		      }
+	  		 }); // define the text to display
+	  };
 
         function mouseout(d) {
-          debugger;
-                  d3.selectAll("#myText").remove();
-                  d3.selectAll("#myText1").remove();
-                d3.select(this).style("fill", "red");
-				  //      svg.selectAll("text").remove()
-          debugger;
-                var mousecoord = [0,0];
-                mousecoord = d3.mouse(this);
-            };
+       	  d3.selectAll("#myText").remove();
+       	  d3.selectAll("#myText1").remove();
+       	  d3.select(this).style("fill", "red");
+       	  var mousecoord = [0,0];
+       	  mousecoord = d3.mouse(this);
+        };
 
-
-
-// for Destination circle logic
-		var nestedd = d3.nest()
- 				.key(function(d)
-					{
- 					return d['Dest'];
- 					})
- 				.rollup(function(leaves)
-					{
- 						var coords = leaves.map(function(d)
-							{ return projection([+d.DLongitude, +d.DLatitude]);});
-						var city = leaves.map(function(d)
-  							         {return d['DCity']});
- 						var center_x = d3.mean(coords, function(d)
- 							{ return d[0];});
-
- 						var center_y = d3.mean(coords, function(d)
- 							{ return d[1];});
-
- 						return {
- 							'x'	 	 : center_x,
- 							'y'		 : center_y,
-							'city' : city}
-					  })
- 				.entries(data);
-
-
-		var dest = svg.append('g')
+	// for Destination circle logic
+	var nestedd = d3.nest()
+	 	  	.key(function(d) {
+	 	  	  return d['Dest'];
+	 	  	})
+	 	  	.rollup(function(leaves) {
+ 			  var coords = leaves.map(function(d) { 
+ 			    return projection([+d.DLongitude, +d.DLatitude]);
+ 			  });
+ 			  var city = leaves.map(function(d) {
+ 			    return d['DCity']
+ 			  });
+ 			  var center_x = d3.mean(coords, function(d) { 
+ 			    return d[0];
+ 			  });
+ 			  var center_y = d3.mean(coords, function(d) { 
+ 			    return d[1];
+ 			  });
+ 			  return {
+ 			    'x'	 	 : center_x,
+ 			    'y'		 : center_y,
+ 			    'city' : city
+ 			  }
+	 	  	})
+	 	  	.entries(data);
+	 	  	
+	 var dest = svg.append('g')
     			.attr("class", "bubble")
-    		  .attr("id","dest_id")
+    		  	.attr("id","dest_id")
     			.selectAll("circle")
     			.data(nestedd)
     			.enter()
@@ -386,87 +377,73 @@
     			.attr('opacity',1)
     			.on("mouseover", mouseoverd)
     			.on("mouseout", mouseout);;
-    		debugger;
+    	draw_arc(data);
+	};
 
-		draw_arc(data);
+	function draw_arc(data) {
+	  var count = 0;
+	  var perc  = 0;
+	  for(var i=0, len=data.length; i<len; i++) {
+	  if ((data[i]['ArrDelay'] > min_delay) && (data[i]['ArrDelay'] < max_delay) ) {
+	    count += 1
+	    links.push( {
+	      type: "LineString",
+	      coordinates: [
+	        [ data[i].OLongitude, data[i].OLatitude],
+	        [ data[i].DLongitude, data[i].DLatitude]
+	      ]
+	    });
+	  }
+	}
+     
+	perc = (count / data.length) * 100;
 
-		};
-
-    function draw_arc(data)
-    {
-      debugger;
-      var count = 0,
-          perc  = 0;
-      for(var i=0, len=data.length; i<len; i++)
-      {
-        if ((data[i]['ArrDelay'] > min_delay) && (data[i]['ArrDelay'] < max_delay) )
-        {
-             count += 1
-             links.push({
-                 type: "LineString",
-                 coordinates: [
-                     [ data[i].OLongitude, data[i].OLatitude],
-                     [ data[i].DLongitude, data[i].DLatitude]
-                 ]
-          });
-        }
-     }
-     debugger;
-     perc = (count / data.length) * 100;
-     debugger;
-
-         var lineTransition = function lineTransition(path) {
-                path.transition()
-                    //NOTE: Change this number (in ms) to make lines draw faster or slower
-                    .duration(5500)
-                    .attrTween("stroke-dasharray", flightpath)
-            };
+	var lineTransition = function lineTransition(path) {
+	  path.transition()
+	  .duration(5500)  	//NOTE: Change this number (in ms) to make lines draw faster or slower
+	  .attrTween("stroke-dasharray", flightpath)
+	};
 
         var flightpath = function flightpath() {
-            var len = this.getTotalLength(),
-                interpolate = d3.interpolateString("0," + len, len + "," + len);
-
-            return function(t) { return interpolate(t); };
+       	  var len = this.getTotalLength(),
+       	  interpolate = d3.interpolateString("0," + len, len + "," + len);
+       	  return function(t) { return interpolate(t); };
         };
+	
+	svg.selectAll(".arc").remove();
+        
+        var pathArcs = arcGroup.selectAll(".arc")
+        			.data(links)
+        			.enter()
+        			.append("path")
+        			.attr({
+        			  d: path
+        			})
+        			.attr('opacity',0.8)
+        			.attr({
+        			  'class': class_del
+        			})
+        			.call(lineTransition);
 
-		svg.selectAll(".arc").remove();
-        debugger;
-         var pathArcs = arcGroup.selectAll(".arc")
-                        .data(links)
-                        .enter()
-                        .append("path")
-                        .attr({
-                                d: path
-                              })
-                        .attr('opacity',0.8)
-                        .attr({
-                                'class': class_del
-                              })
+    	svg.append("text")
+    	   .attr("x", x_txt)
+    	   .attr("y", y_txt)
+    	   .text(+(Math.round(perc + "e+2")  + "e-2"))
+    	   .attr("font-size",20)
+    	   .attr("font-family","serif")
+    	   .attr("font-weight","bold");
 
-                        .call(lineTransition);
-        debugger;
-
-
-    svg.append("text")
-           .attr("x", x_txt)
-           .attr("y", y_txt)
-           .text(+(Math.round(perc + "e+2")  + "e-2"))
-		   .attr("font-size",20)
-		   .attr("font-family","serif")
-		   .attr("font-weight","bold");
-      debugger;
-
-	  svg.append("text")
-			.attr("x", x_txt + 45 )
-      .attr("y", y_txt)
-			.text("%")
-			.attr("font-size",20)
-		  .attr("font-family","serif")
-	    .attr("font-weight","bold");
-
-    }
+	svg.append("text")
+	   .attr("x", x_txt + 45 )
+	   .attr("y", y_txt)	
+	   .text("%"
+	   .attr("font-size",20)
+	   .attr("font-family","serif")
+	   .attr("font-weight","bold");
+    	}
 
 	d3.csv("2008-new.csv",plot_points)
+	
       };
       </script>
   </head>
