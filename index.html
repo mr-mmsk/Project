@@ -442,8 +442,16 @@
 	   .attr("font-weight","bold");
     	}
 
-	d3.csv("2008-new_X.csv",plot_points)
-	
+	d3.csv("2008-new_X.csv",plot_points);
+	var intervalFunctions = [ button1_click, button2_click, button3_click, button4_click ];
+  	var intervalIndex = 0;
+
+  	var int1 = setInterval(function() {
+    		     intervalFunctions[intervalIndex++ % intervalFunctions.length]();
+    		     if (intervalIndex == 4) {
+    		     	  clearInterval(int1)
+    			}
+  		    }, 6000);
       };
       </script>
   </head>
