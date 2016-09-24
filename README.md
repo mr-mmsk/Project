@@ -2,7 +2,15 @@
 
 Summary - 
 
-The Visualization gives you an idea of percentage of flights on time/delayed in US. based on the visualization there are about 
+The Visualization gives you an idea of percentage of flights on time/delayed in US. based on the visualization there are about,
+67% of flight arrive on time or being early, 
+26% of flights are delayed less than 60 minutes,  
+5.4%  of flights are delayed between 60 to 120 minutes,
+1.3% flights are delayed more than 120 mintues.
+
+Based on my analysis flight originated in San Diego Airport has the biggest delay of about 500 mins next to St.Louis which as about 366 mins delay. 
+Majority of the delay is observed on flights originated from Chicago obviously because of one of the busiest airport in USA and the next place goes to Los Angeles.
+The Majority of the flights are on time or early are the flights originated from Las Vegas Airport and the second place goes to Chicago.
 
 
 Design - 
