@@ -121,7 +121,7 @@
         var width = 2000;
         var height = 1100;
         var links = [];
-        var min_delay = -40;
+        var min_delay = -50;
         var class_del = 'arc_b';
 	var max_delay = 10000;
 	var x_txt = 480;
@@ -174,7 +174,7 @@
 	  svg.selectAll(".arc_y").remove()
 	  svg.selectAll(".arc_r").remove()
 	  svg.selectAll(".arc_g").remove()
-  	  min_delay = -40;
+  	  min_delay = -50;
   	  max_delay = 10;
   	  x_txt = 390;
   	  y_txt = 72;
@@ -222,7 +222,7 @@
 	  svg.selectAll(".arc_y").remove()
 	  svg.selectAll(".arc_r").remove()
 	  svg.selectAll(".arc_g").remove()
-  	  min_delay = 120;
+  	  min_delay = 121;
   	  max_delay = 1000;
 	  x_txt =  390;
   	  y_txt = 190;
@@ -384,7 +384,7 @@
 	  var count = 0;
 	  var perc  = 0;
 	  for(var i=0, len=data.length; i<len; i++) {
-	  if ((data[i]['ArrDelay'] > min_delay) && (data[i]['ArrDelay'] < max_delay) ) {
+	  if ((data[i]['ArrDelay'] >= min_delay) && (data[i]['ArrDelay'] <= max_delay) ) {
 	    count += 1
 	    links.push( {
 	      type: "LineString",
