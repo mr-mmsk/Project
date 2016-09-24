@@ -180,7 +180,7 @@
   	  y_txt = 72;
   	  links = [];
   	  class_del = 'arc_g';
-	  d3.csv("2008-new.csv",draw_arc)
+	  d3.csv("2008-new_X.csv",draw_arc)
         })
         
         d3.select("#B2 button").on("click", function()
@@ -196,7 +196,7 @@
   	  y_txt = 112;
 	  links = [];
   	  class_del = 'arc_y';
-  	  d3.csv("2008-new.csv",draw_arc)
+  	  d3.csv("2008-new_X.csv",draw_arc)
         })
         
         d3.select("#B3 button").on("click", function()
@@ -212,7 +212,7 @@
   	  y_txt = 150;
   	  links = [];
   	  class_del = 'arc_br';
-  	  d3.csv("2008-new.csv",draw_arc)
+  	  d3.csv("2008-new_X.csv",draw_arc)
         })
         
         d3.select("#B4 button").on("click", function()
@@ -228,7 +228,7 @@
   	  y_txt = 190;
   	  links = [];
   	  class_del = 'arc_r';
-  	  d3.csv("2008-new.csv",draw_arc)
+  	  d3.csv("2008-new_X.csv",draw_arc)
         })
 
 	function plot_points(data){
@@ -442,7 +442,7 @@
 	   .attr("font-weight","bold");
     	}
 
-	d3.csv("2008-new.csv",plot_points)
+	d3.csv("2008-new_X.csv",plot_points)
 	
       };
       </script>
