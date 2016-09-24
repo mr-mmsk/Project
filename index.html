@@ -167,8 +167,8 @@
 	/* Buttons and logic here */
 	var arcGroup  = svg.append("g");
 
-        d3.select("#B1 button").on("click", function()
-        {
+        d3.select("#B1 button").on("click", button1_click)
+        function button1_click() {
        	  svg.selectAll(".arc_b").remove()
 	  svg.selectAll(".arc_br").remove()
 	  svg.selectAll(".arc_y").remove()
@@ -181,10 +181,10 @@
   	  links = [];
   	  class_del = 'arc_g';
 	  d3.csv("2008-new_X.csv",draw_arc)
-        })
+        }
         
-        d3.select("#B2 button").on("click", function()
-        {
+        d3.select("#B2 button").on("click", button2_click)
+        function button2_click() {
 	  svg.selectAll(".arc_b").remove()
 	  svg.selectAll(".arc_br").remove()
 	  svg.selectAll(".arc_y").remove()
@@ -197,10 +197,10 @@
 	  links = [];
   	  class_del = 'arc_y';
   	  d3.csv("2008-new_X.csv",draw_arc)
-        })
+        }
         
-        d3.select("#B3 button").on("click", function()
-        {
+        d3.select("#B3 button").on("click", button3_click)
+        function button3_click() {
 	  svg.selectAll(".arc_b").remove()
 	  svg.selectAll(".arc_br").remove()
 	  svg.selectAll(".arc_y").remove()
@@ -213,10 +213,10 @@
   	  links = [];
   	  class_del = 'arc_br';
   	  d3.csv("2008-new_X.csv",draw_arc)
-        })
+        }
         
-        d3.select("#B4 button").on("click", function()
-        {
+        d3.select("#B4 button").on("click", button4_click)
+        function button3_click() {
 	  svg.selectAll(".arc_b").remove()
 	  svg.selectAll(".arc_br").remove()
 	  svg.selectAll(".arc_y").remove()
@@ -229,7 +229,7 @@
   	  links = [];
   	  class_del = 'arc_r';
   	  d3.csv("2008-new_X.csv",draw_arc)
-        })
+        }
 
 	function plot_points(data){
 	// for Source circle logic
