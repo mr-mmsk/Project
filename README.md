@@ -3,17 +3,20 @@
 Summary - 
 
 The Visualization gives you an idea of percentage of flights on time/delayed in US. based on the visualization there are about,
-67% of flight arrive on time or being early, 
-26% of flights are delayed less than 60 minutes,  
-5.4%  of flights are delayed between 60 to 120 minutes,
-1.3% flights are delayed more than 120 mintues.
+47.4% of flight arrive on time or being early, 
+41.2% of flights are delayed less than 60 minutes,  
+9.7%  of flights are delayed between 60 to 120 minutes,
+1.7% flights are delayed more than 120 mintues.
 
-Based on my analysis flight originated in San Diego Airport has the biggest delay of about 500 mins next to St.Louis which as about 366 mins delay. 
-Majority of the delay is observed on flights originated from Chicago obviously because of one of the busiest airport in USA and the next place goes to Los Angeles.
-The Majority of the flights are on time or early are the flights originated from Las Vegas Airport and the second place goes to Chicago.
-
+The  circles are sized according to the  traffic of the flights, so from the obervation of circles I am listing my below findings.
+In "on time or being early" category  we can observe airports Chicago, Baltimore, Orlando, Houstan and Pheonix has most number of flight made on time.
+In "delayed less than 60 minutes" category we can observe airports Chicago, Baltimore, Los angeles and Oakland has more delays.  
+In "delayed between 60 to 120 minutes" category we can observe airports Los angeles, Sacremento, Chicago and Oakland has more delays.  
+In "delayed more than 120 mintuess" category we can observe airports Los Vegas, Chicago and San Fransico has more delays. 
 
 Design - 
+
+I primarily picked the geo map becos its easy to see the the flighr traffic as a route between cities rather than a chart or table, assigned  circles as a conventional way of displaying a  location .
 
 Chose to do a map since it will be a great learning opputunity and also when you think about flight location comes to mind. The map is circled with all the airports from USA and city names can be observed when you do a mouse over.
 Added percentage to all the categories (ontime/Delayed),
