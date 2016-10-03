@@ -13,7 +13,7 @@
       top: 5500px;
       left: 890px;
     }
-    
+
     .boundary {
       fill: none;
       stroke: #fff;
@@ -108,16 +108,24 @@
         var links = [];
         var min_delay = -50;
         var class_del = 'arc_b';
-    var max_delay = 10000;
-    var x_txt = 480;
-    var y_txt = 25;
-    d3.select("body")
+        var radius = 3.4;
+        var max_delay = 10000;
+        var x_txt = 480;
+        var y_txt = 25;
+        var m1 = 100;
+        var m2 = 200;
+        var m3 = 300;
+        var m4 = 400;
+        var m5 = 500;
+        var m6 = 900;
+
+        d3.select("body")
       .append("h2")
       .text("2008 USA Flight Stats");
         var projection = d3.geo.albersUsa()
                    .scale(1600)
                    .translate( [width / 2, height / 2]);
-    var catagories = ['On time or arrived early','delayed < 1 hr','delayed > 1 hrs & < than 2 hrs','delayed > 2'];
+        var catagories = ['On time or arrived early','delayed < 1 hr','delayed > 1 hrs & < than 2 hrs','delayed > 2'];
         var svg = d3.select("body")
                 .append("svg")
                 .attr("width", width )
@@ -142,92 +150,128 @@
        .text("Total Available Arrival Time Percentage:-");
     /* Buttons and logic here */
     var arcGroup  = svg.append("g");
-        d3.select("#B1 button").on("click", button1_click)
-        function button1_click() {
-          svg.selectAll(".arc_b").remove()
+
+    d3.select("#B1 button").on("click", button1_click)
+    function button1_click() {
+      svg.selectAll(".arc_b").remove()
       svg.selectAll(".arc_br").remove()
       svg.selectAll(".arc_y").remove()
       svg.selectAll(".arc_r").remove()
       svg.selectAll(".arc_g").remove()
+      svg.selectAll("#orig_id").remove()
+      svg.selectAll("#dest_id").remove()
       min_delay = -50;
       max_delay = 10;
       x_txt = 390;
       y_txt = 72;
       links = [];
+      m1 = 5;
+      m2 = 10;
+      m3 = 15;
+      m4 = 20;
+      m5 = 25;
+      m6 = 30;
       class_del = 'arc_g';
-      d3.csv("2008-new_X.csv",draw_arc)
+      d3.csv("2008-new_X.csv",plot_points)
         }
-        
-        d3.select("#B2 button").on("click", button2_click)
-        function button2_click() {
+
+    d3.select("#B2 button").on("click", button2_click)
+    function button2_click() {
       svg.selectAll(".arc_b").remove()
       svg.selectAll(".arc_br").remove()
       svg.selectAll(".arc_y").remove()
       svg.selectAll(".arc_r").remove()
       svg.selectAll(".arc_g").remove()
+      svg.selectAll("#orig_id").remove()
+      svg.selectAll("#dest_id").remove()
       min_delay = 11;
       max_delay = 60;
       x_txt = 390;
       y_txt = 112;
       links = [];
+      m1 = 5;
+      m2 = 10;
+      m3 = 15;
+      m4 = 20;
+      m5 = 25;
+      m6 = 30;
       class_del = 'arc_y';
-      d3.csv("2008-new_X.csv",draw_arc)
+      d3.csv("2008-new_X.csv",plot_points)
         }
-        
-        d3.select("#B3 button").on("click", button3_click)
-        function button3_click() {
+
+    d3.select("#B3 button").on("click", button3_click)
+    function button3_click() {
       svg.selectAll(".arc_b").remove()
       svg.selectAll(".arc_br").remove()
       svg.selectAll(".arc_y").remove()
       svg.selectAll(".arc_r").remove()
       svg.selectAll(".arc_g").remove()
+      svg.selectAll("#orig_id").remove()
+      svg.selectAll("#dest_id").remove()
       min_delay = 61;
       max_delay = 120;
       x_txt = 390;
       y_txt = 150;
       links = [];
+      m1 = 1;
+      m2 = 2;
+      m3 = 3;
+      m4 = 4;
+      m5 = 5;
+      m6 = 6;
       class_del = 'arc_br';
-      d3.csv("2008-new_X.csv",draw_arc)
+      d3.csv("2008-new_X.csv",plot_points)
         }
-        
-        d3.select("#B4 button").on("click", button4_click)
-        function button4_click() {
+
+    d3.select("#B4 button").on("click", button4_click)
+    function button4_click() {
       svg.selectAll(".arc_b").remove()
       svg.selectAll(".arc_br").remove()
       svg.selectAll(".arc_y").remove()
       svg.selectAll(".arc_r").remove()
       svg.selectAll(".arc_g").remove()
+      svg.selectAll("#orig_id").remove()
+      svg.selectAll("#dest_id").remove()
       min_delay = 121;
       max_delay = 1000;
       x_txt =  390;
       y_txt = 190;
       links = [];
+      m1 = 1;
+      m2 = 2;
+      m3 = 3;
+      m4 = 3;
+      m5 = 4;
+      m6 = 5;
       class_del = 'arc_r';
-      d3.csv("2008-new_X.csv",draw_arc)
+      d3.csv("2008-new_X.csv",plot_points)
         }
-    function plot_points(data){
+    function plot_points(data) {
     // for Source circle logic
     var nestedo = d3.nest()
             .key(function(d){
-            return d['Origin'];
+              if ((d['ArrDelay'] >= min_delay) && (d['ArrDelay'] <= max_delay)) {
+              return d['Origin'];
+              }
             })
-            .rollup(function(leaves){
-              var coords = leaves.map(function(d){ 
-                return projection([+d.OLongitude, +d.OLatitude]);
+            .rollup(function(leaves) {
+              var coords = leaves.map(function(d) {
+                  return projection([+d.OLongitude, +d.OLatitude]);
               });
-            var city = leaves.map(function(d){ 
-              return d['OCity']
+            var city = leaves.map(function(d) {
+                return d['OCity']
+              });
+            var center_x = d3.mean(coords, function(d) {
+                return d[0];
             });
-            var center_x = d3.mean(coords, function(d){ 
-              return d[0];
-            });
-            var center_y = d3.mean(coords, function(d){ 
+            var center_y = d3.mean(coords, function(d) {
               return d[1];
             });
             return {
               'x'       : center_x,
               'y'       : center_y,
-              'city'  : city}
+              'city'    : city
+            }
             })
             .entries(data);
     var orig = svg.append('g')
@@ -239,7 +283,27 @@
                   .append("circle")
                   .attr('cx', function(d) { return d.values['x']; })
                   .attr('cy', function(d) { return d.values['y']; })
-                  .attr('r', 3.5)
+                 // .attr('r', function(d) { return (d.values['weight'].length)/100 })
+                  .attr('r', function(d) {
+                    if (d.values['city'].length <= m1) {
+                      return 2;
+                    }
+                    if (d.values['city'].length > m1 & d.values['city'].length <= m2) {
+                      return 2.5;
+                    }
+                   if (d.values['city'].length > m2 & d.values['city'].length <= m3) {
+                      return 3;
+                    }
+                    if (d.values['city'].length > m3 & d.values['city'].length <= m4) {
+                      return 3.5;
+                    }
+                    if (d.values['city'].length > m4 & d.values['city'].length <= m5) {
+                      return 4;
+                    }
+                    if (d.values['city'].length > m5 & d.values['city'].length <= m6) {
+                      return 5;
+                    }
+                   })
                   .style("fill","red")
                   .attr('stroke','blue')
                   .attr('stroke-width',1)
@@ -251,7 +315,7 @@
       var mousecoord = [0,0];
       mousecoord = d3.mouse(this);
       var flag = 0;
-      
+
       var text1 = svg.append('g')
              .selectAll("text")
              .data(nestedo)
@@ -261,8 +325,10 @@
              .attr("x", mousecoord[0])
              .attr("y", mousecoord[1])
              .attr("dy", -7)        // set y position of bottom of text
-             .style("fill", "black")    // fill the text with the colour black
-             .attr("text-anchor", "middle")         // set anchor y justification
+             .style("fill", "purple")    // fill the text with the colour black
+             .attr("text-anchor", "middle")
+             .attr("font-family","sans-serif")
+             .attr("font-size",16)
              .text(function(d) {               // define the text to display
                if ((Math.abs(d.values['x'] - mousecoord[0]) < 5) &&
                (Math.abs(d.values['y'] - mousecoord[1]) < 5) &&
@@ -286,8 +352,10 @@
              .attr("x", mousecoord[0])
              .attr("y", mousecoord[1])
              .attr("dy", -7)            // set y position of bottom of text
-             .style("fill", "black")    // fill the text with the colour black
-             .attr("text-anchor", "middle") // set anchor y justification
+             .style("fill", "purple")    // fill the text with the colour black
+             .attr("text-anchor", "middle")
+             .attr("font-family","sans-serif")
+             .attr("font-size",16)
              .text(function(d) {
                if ((Math.abs(d.values['x'] - mousecoord[0]) < 5) &&
                  (Math.abs(d.values['y'] - mousecoord[1]) < 5) &&
@@ -307,19 +375,21 @@
     // for Destination circle logic
     var nestedd = d3.nest()
             .key(function(d) {
+              if ((d['ArrDelay'] >= min_delay) && (d['ArrDelay'] <= max_delay)) {
               return d['Dest'];
+              }
             })
             .rollup(function(leaves) {
-              var coords = leaves.map(function(d) { 
+              var coords = leaves.map(function(d) {
                 return projection([+d.DLongitude, +d.DLatitude]);
               });
               var city = leaves.map(function(d) {
                 return d['DCity']
               });
-              var center_x = d3.mean(coords, function(d) { 
+              var center_x = d3.mean(coords, function(d) {
                 return d[0];
               });
-              var center_y = d3.mean(coords, function(d) { 
+              var center_y = d3.mean(coords, function(d) {
                 return d[1];
               });
               return {
@@ -329,7 +399,7 @@
               }
             })
             .entries(data);
-            
+
      var dest = svg.append('g')
                 .attr("class", "bubble")
                 .attr("id","dest_id")
@@ -339,15 +409,38 @@
                 .append("circle")
                 .attr('cx', function(d) { return d.values['x']; })
                 .attr('cy', function(d) { return d.values['y']; })
-                .attr('r', 3.5)
+                .attr('r', function(d) {
+                    if (d.values['city'].length <= m1) {
+                      return 2;
+                    }
+                    if (d.values['city'].length > m1 & d.values['city'].length <= m2) {
+                      return 2.5;
+                    }
+                   if (d.values['city'].length > m2 & d.values['city'].length <= m3) {
+                      return 3;
+                    }
+                    if (d.values['city'].length > m3 & d.values['city'].length <= m4) {
+                      return 3.5;
+                    }
+                    if (d.values['city'].length > m4 & d.values['city'].length <= m5) {
+                      return 4;
+                    }
+                    if (d.values['city'].length > m5 & d.values['city'].length <= m6) {
+                      return 5;
+                    }
+                   })
+
                 .style("fill","red")
                 .attr('stroke','blue')
                 .attr('stroke-width',1)
                 .attr('opacity',1)
                 .on("mouseover", mouseoverd)
-                .on("mouseout", mouseout);;
+                .on("mouseout", mouseout);
         draw_arc(data);
     };
+    function radius() {
+
+    }
     function draw_arc(data) {
       var count = 0;
       var perc  = 0;
@@ -363,7 +456,7 @@
         });
       }
     }
-     
+
     perc = (count / data.length) * 100;
     var lineTransition = function lineTransition(path) {
       path.transition()
@@ -375,9 +468,9 @@
           interpolate = d3.interpolateString("0," + len, len + "," + len);
           return function(t) { return interpolate(t); };
         };
-    
+
     svg.selectAll(".arc").remove();
-        
+
         var pathArcs = arcGroup.selectAll(".arc")
                     .data(links)
                     .enter()
@@ -399,7 +492,7 @@
            .attr("font-weight","bold");
     svg.append("text")
        .attr("x", x_txt + 45 )
-       .attr("y", y_txt)    
+       .attr("y", y_txt)
        .text("%")
        .attr("font-size",20)
        .attr("font-family","serif")
