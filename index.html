@@ -111,7 +111,7 @@
         var radius = 3.4;
         var max_delay = 10000;
         var x_txt = 400;
-        var y_txt = 25;
+        var y_txt = 40;
         var m1 = 100;
         var m2 = 200;
         var m3 = 300;
@@ -119,10 +119,10 @@
         var m5 = 500;
         var m6 = 900;
         var arcop = 0.1
-        var bary = 09;
+        var bary = 23;
         d3.select("body")
           .append("h2")
-          .text("2008 USA Flight Stats");
+          .text("Flight Traffic and Percentage of On Time/Delays");
         var projection = d3.geo.albersUsa()
                                .scale(1600)
                                .translate( [width / 2, height / 2]);
@@ -142,14 +142,25 @@
                  .style('fill', 'lightBlue')
                  .style('stroke', 'black')
                  .style('stroke-width', 0.5);
+
         svg.append("text")
-           .attr("x", 10)
-           .attr("y", 25)
-           .attr("font-size",20)
+           .attr("x", x_txt )
+           .attr("y", y_txt - 20 )
+           .attr("font-size",15)
            .attr("font-family","serif")
            .attr("font-weight","bold")
-           .style('fill', 'darkOrange')
-           .text("Total Available Arrival Time Percentage:-");
+           .style('fill', 'black')
+           .text("Percentage");
+
+        svg.append("text")
+           .attr("x", x_txt + 130)
+           .attr("y", y_txt -20)
+           .text("Total Number of Flights")
+           .attr("font-size",15)
+           .style('fill', 'black')
+           .attr("font-family","serif")
+           .attr("font-weight","bold");
+
         newRect = svg.append("rect")
                      .attr("x", 40)
                      .attr("y", 240)
@@ -293,7 +304,7 @@
           min_delay = -50;
           max_delay = 1000;
           x_txt = 400;
-          y_txt = 25;
+          y_txt = 40;
           links = [];
           m1 = 100;
           m2 = 200;
@@ -303,7 +314,7 @@
           m6 = 900;
           arcop = 0.1;
           class_del = 'arc_b';
-          bary = 09;
+          bary = 23;
           d3.csv("2008-new_X.csv",plot_points)
         }
         function plot_points(data) {
@@ -553,6 +564,16 @@
            .attr("font-size",20)
            .attr("font-family","serif")
            .attr("font-weight","bold");
+
+        svg.append("text")
+           .attr("x", x_txt + 200 )
+           .attr("y", y_txt)
+           .text(count)
+           .style('fill', 'black')
+           .attr("font-size",15)
+           .attr("font-family","serif")
+           .attr("font-weight","bold");   
+
         svg.append("text")
            .attr("x", x_txt + 45 )
            .attr("y", y_txt)
