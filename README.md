@@ -3,16 +3,15 @@
 Summary - 
 
 The Visualization gives you an idea of percentage of flights on time/delayed in US. based on the visualization there are about,
-47.4% of flight arrive on time or being early, 
-41.2% of flights are delayed less than 60 minutes,  
-9.7%  of flights are delayed between 60 to 120 minutes,
-1.7% flights are delayed more than 120 mintues.
 
-The  circles are sized according to the  traffic of the flights, so from the obervation of circles I am listing my below findings.
-In "on time or being early" category  we can observe airports Chicago, Baltimore, Orlando, Houstan and Pheonix has most number of flight made on time.
-In "delayed less than 60 minutes" category we can observe airports Chicago, Baltimore, Los angeles and Oakland has more delays.  
-In "delayed between 60 to 120 minutes" category we can observe airports Los angeles, Sacremento, Chicago and Oakland has more delays.  
-In "delayed more than 120 mintuess" category we can observe airports Los Vegas, Chicago and San Fransico has more delays. 
+66.76% of flight arrive on time or being early, 
+26.44% of flights are delayed less than 60 minutes,  
+5.47%  of flights are delayed between 60 to 120 minutes,
+1.33% flights are delayed more than 120 mintues.
+
+The  circles are sized according to the  traffic of the flights.
+
+Based on the Explanatory Visualization we can see about 1/3 chance that your flight is going to arrive late. And prominent cities like Chicago, Las Vegas, Orlando has more Air traffic.
 
 Design - 
 
