@@ -5,7 +5,7 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
     <style>
     svg {
-    background: white;
+    background: teal;
     }
     h2 {
       color: blue;
@@ -67,7 +67,7 @@
       stroke-width: 1px;
       stroke-linecap: round;
     }
-        .button1 button {
+    .button1 button {
       left: 120px;
       position: absolute;
       top: 120px;
@@ -75,7 +75,7 @@
       height: 30px;
       background-color: green;
         }
-        .button2 button {
+    .button2 button {
       left: 120px;
       position: absolute;
       top: 160px;
@@ -83,7 +83,7 @@
       height: 30px;
       background-color: rgb(136, 86, 167);
         }
-        .button3 button {
+    .button3 button {
       left: 120px;
       position: absolute;
       top:200px;
@@ -98,6 +98,7 @@
       width: 250px;
       height: 30px;
       background-color: red;
+      opacity: 5;
         }
     </style>
 
@@ -110,7 +111,7 @@
         var class_del = 'arc_b';
         var radius = 3.4;
         var max_delay = 10000;
-        var x_txt = 480;
+        var x_txt = 400;
         var y_txt = 25;
         var m1 = 100;
         var m2 = 200;
@@ -118,21 +119,27 @@
         var m4 = 400;
         var m5 = 500;
         var m6 = 900;
+        var arcop = 0.1
+        var bary = 09;
 
         d3.select("body")
-      .append("h2")
-      .text("2008 USA Flight Stats");
+          .append("h2")
+          .text("2008 USA Flight Stats");
+
         var projection = d3.geo.albersUsa()
-                   .scale(1600)
-                   .translate( [width / 2, height / 2]);
+                               .scale(1600)
+                               .translate( [width / 2, height / 2]);
+
         var catagories = ['On time or arrived early','delayed < 1 hr','delayed > 1 hrs & < than 2 hrs','delayed > 2'];
         var svg = d3.select("body")
-                .append("svg")
-                .attr("width", width )
-                .attr("height", height)
-                .append('g')
-                .attr('class', 'map');
+                    .append("svg")
+                    .attr("width", width )
+                    .attr("height", height)
+                    .append('g')
+                    .attr('class', 'map');
+
         var path = d3.geo.path().projection(projection);
+
         var map = svg.selectAll('path')
                  .data(geo_data.features)
                  .enter()
@@ -141,375 +148,475 @@
                  .style('fill', 'lightBlue')
                  .style('stroke', 'black')
                  .style('stroke-width', 0.5);
+
         svg.append("text")
-       .attr("x", 100)
-       .attr("y", 25)
-       .attr("font-size",20)
-       .attr("font-family","serif")
-       .attr("font-weight","bold")
-       .text("Total Available Arrival Time Percentage:-");
-    /* Buttons and logic here */
-    var arcGroup  = svg.append("g");
+           .attr("x", 10)
+           .attr("y", 25)
+           .attr("font-size",20)
+           .attr("font-family","serif")
+           .attr("font-weight","bold")
+           .style('fill', 'darkOrange')
+           .text("Total Available Arrival Time Percentage:-");
 
-    d3.select("#B1 button").on("click", button1_click)
-    function button1_click() {
-      svg.selectAll(".arc_b").remove()
-      svg.selectAll(".arc_br").remove()
-      svg.selectAll(".arc_y").remove()
-      svg.selectAll(".arc_r").remove()
-      svg.selectAll(".arc_g").remove()
-      svg.selectAll("#orig_id").remove()
-      svg.selectAll("#dest_id").remove()
-      min_delay = -50;
-      max_delay = 10;
-      x_txt = 390;
-      y_txt = 72;
-      links = [];
-      m1 = 5;
-      m2 = 10;
-      m3 = 15;
-      m4 = 20;
-      m5 = 25;
-      m6 = 30;
-      class_del = 'arc_g';
-      d3.csv("2008-new_X.csv",plot_points)
+        newRect = svg.append("rect")
+                     .attr("x", 40)
+                     .attr("y", 240)
+                     .attr("width", 360)
+                     .attr("height", 80)
+                     .attr("fill", "white")
+                     .attr("id", "rectLabel");
+
+        svg.append("text")
+           .attr("x", 45)
+           .attr("y", 260)
+           .attr("font-size",20)
+           .attr("font-family","serif")
+           .attr("font-weight","bold")
+           .style('fill', 'black')
+           .text("Instruction & Notes:-");
+
+         svg.append("text")
+           .attr("x", 45)
+           .attr("y", 285)
+           .attr("font-size",14)
+           .attr("font-family","serif")
+           //.attr("font-weight","bold")
+           .style('fill', 'black')
+           .text("1.Click on the above buttons to explore air traffic.");
+
+         svg.append("text")
+           .attr("x", 45)
+           .attr("y", 300)
+           .attr("font-size",14)
+           .attr("font-family","serif")
+           //.attr("font-weight","bold")
+           .style('fill', 'black')
+           .text("2.Mouse over the dots to explore the airport location.");
+
+         svg.append("text")
+           .attr("x", 45)
+           .attr("y", 315)
+           .attr("font-size",14)
+           .attr("font-family","serif")
+           //.attr("font-weight","bold")
+           .style('fill', 'black')
+           .text("* The size of the dot indicates the Airtraffic");
+
+        /* Buttons and logic here */
+        var arcGroup  = svg.append("g");
+
+        d3.select("#B1 button").on("click", button1_click)
+
+        function button1_click() {
+          svg.selectAll(".arc_b").remove()
+          svg.selectAll(".arc_br").remove()
+          svg.selectAll(".arc_y").remove()
+          svg.selectAll(".arc_r").remove()
+          svg.selectAll(".arc_g").remove()
+          svg.selectAll("#orig_id").remove()
+          svg.selectAll("#dest_id").remove()
+          min_delay = -50;
+          max_delay = 10;
+          y_txt = 72;
+          links = [];
+          m1 = 10;
+          m2 = 20;
+          m3 = 40;
+          m4 = 60;
+          m5 = 80;
+          m6 = 500;
+          class_del = 'arc_g';
+          bary = 55;
+          d3.csv("2008-new_X.csv",plot_points)
         }
 
-    d3.select("#B2 button").on("click", button2_click)
-    function button2_click() {
-      svg.selectAll(".arc_b").remove()
-      svg.selectAll(".arc_br").remove()
-      svg.selectAll(".arc_y").remove()
-      svg.selectAll(".arc_r").remove()
-      svg.selectAll(".arc_g").remove()
-      svg.selectAll("#orig_id").remove()
-      svg.selectAll("#dest_id").remove()
-      min_delay = 11;
-      max_delay = 60;
-      x_txt = 390;
-      y_txt = 112;
-      links = [];
-      m1 = 5;
-      m2 = 10;
-      m3 = 15;
-      m4 = 20;
-      m5 = 25;
-      m6 = 30;
-      class_del = 'arc_y';
-      d3.csv("2008-new_X.csv",plot_points)
+        d3.select("#B2 button").on("click", button2_click)
+
+        function button2_click() {
+          svg.selectAll(".arc_b").remove()
+          svg.selectAll(".arc_br").remove()
+          svg.selectAll(".arc_y").remove()
+          svg.selectAll(".arc_r").remove()
+          svg.selectAll(".arc_g").remove()
+          svg.selectAll("#orig_id").remove()
+          svg.selectAll("#dest_id").remove()
+          min_delay = 11;
+          max_delay = 60;
+          y_txt = 112;
+          links = [];
+          m1 = 10;
+          m2 = 20;
+          m3 = 30;
+          m4 = 40;
+          m5 = 55;
+          m6 = 550;
+          class_del = 'arc_y';
+          bary = 95;
+          d3.csv("2008-new_X.csv",plot_points)
         }
 
-    d3.select("#B3 button").on("click", button3_click)
-    function button3_click() {
-      svg.selectAll(".arc_b").remove()
-      svg.selectAll(".arc_br").remove()
-      svg.selectAll(".arc_y").remove()
-      svg.selectAll(".arc_r").remove()
-      svg.selectAll(".arc_g").remove()
-      svg.selectAll("#orig_id").remove()
-      svg.selectAll("#dest_id").remove()
-      min_delay = 61;
-      max_delay = 120;
-      x_txt = 390;
-      y_txt = 150;
-      links = [];
-      m1 = 1;
-      m2 = 2;
-      m3 = 3;
-      m4 = 4;
-      m5 = 5;
-      m6 = 6;
-      class_del = 'arc_br';
-      d3.csv("2008-new_X.csv",plot_points)
+        d3.select("#B3 button").on("click", button3_click)
+
+        function button3_click() {
+          svg.selectAll(".arc_b").remove()
+          svg.selectAll(".arc_br").remove()
+          svg.selectAll(".arc_y").remove()
+          svg.selectAll(".arc_r").remove()
+          svg.selectAll(".arc_g").remove()
+          svg.selectAll("#orig_id").remove()
+          svg.selectAll("#dest_id").remove()
+          min_delay = 61;
+          max_delay = 120;
+          y_txt = 150;
+          links = [];
+          m1 = 3;
+          m2 = 6;
+          m3 = 9;
+          m4 = 12;
+          m5 = 15;
+          m6 = 150;
+          arcop = 0.5;
+          class_del = 'arc_br';
+          bary = 133;
+          d3.csv("2008-new_X.csv",plot_points)
         }
 
-    d3.select("#B4 button").on("click", button4_click)
-    function button4_click() {
-      svg.selectAll(".arc_b").remove()
-      svg.selectAll(".arc_br").remove()
-      svg.selectAll(".arc_y").remove()
-      svg.selectAll(".arc_r").remove()
-      svg.selectAll(".arc_g").remove()
-      svg.selectAll("#orig_id").remove()
-      svg.selectAll("#dest_id").remove()
-      min_delay = 121;
-      max_delay = 1000;
-      x_txt =  390;
-      y_txt = 190;
-      links = [];
-      m1 = 1;
-      m2 = 2;
-      m3 = 3;
-      m4 = 3;
-      m5 = 4;
-      m6 = 5;
-      class_del = 'arc_r';
-      d3.csv("2008-new_X.csv",plot_points)
+        d3.select("#B4 button").on("click", button4_click)
+
+        function button4_click() {
+          svg.selectAll(".arc_b").remove()
+          svg.selectAll(".arc_br").remove()
+          svg.selectAll(".arc_y").remove()
+          svg.selectAll(".arc_r").remove()
+          svg.selectAll(".arc_g").remove()
+          svg.selectAll("#orig_id").remove()
+          svg.selectAll("#dest_id").remove()
+          min_delay = 121;
+          max_delay = 1000;
+          y_txt = 190;
+          links = [];
+          m1 = 1;
+          m2 = 2;
+          m3 = 3;
+          m4 = 3;
+          m5 = 4;
+          m6 = 20;
+          arcop = 0.7;
+          class_del = 'arc_r';
+          bary = 173;
+          d3.csv("2008-new_X.csv",plot_points)
         }
-    function plot_points(data) {
-    // for Source circle logic
-    var nestedo = d3.nest()
-            .key(function(d){
-              if ((d['ArrDelay'] >= min_delay) && (d['ArrDelay'] <= max_delay)) {
-              return d['Origin'];
-              }
-            })
-            .rollup(function(leaves) {
-              var coords = leaves.map(function(d) {
-                  return projection([+d.OLongitude, +d.OLatitude]);
+        function original() {
+          svg.selectAll(".arc_b").remove()
+          svg.selectAll(".arc_br").remove()
+          svg.selectAll(".arc_y").remove()
+          svg.selectAll(".arc_r").remove()
+          svg.selectAll(".arc_g").remove()
+          svg.selectAll("#orig_id").remove()
+          svg.selectAll("#dest_id").remove()
+          min_delay = -50;
+          max_delay = 1000;
+          x_txt = 400;
+          y_txt = 25;
+          links = [];
+          m1 = 100;
+          m2 = 200;
+          m3 = 300;
+          m4 = 400;
+          m5 = 500;
+          m6 = 900;
+          arcop = 0.1;
+          class_del = 'arc_b';
+          bary = 09;
+          d3.csv("2008-new_X.csv",plot_points)
+        }
+
+        function plot_points(data) {
+        // for Source circle logic
+          var nestedo = d3.nest()
+                          .key(function(d){
+                            if ((d['ArrDelay'] >= min_delay) && (d['ArrDelay'] <= max_delay)) {
+                              return d['Origin'];
+                            }
+                          })
+                          .rollup(function(leaves) {
+                            var coords = leaves.map(function(d) {
+                              return projection([+d.OLongitude, +d.OLatitude]);
+                            });
+                            var city = leaves.map(function(d) {
+                              return d['OCity']
+                            });
+                            var center_x = d3.mean(coords, function(d) {
+                              return d[0];
+                            });
+                            var center_y = d3.mean(coords, function(d) {
+                              return d[1];
+                            });
+                            return {
+                              'x'       : center_x,
+                              'y'       : center_y,
+                              'city'    : city
+                            }
+                          })
+                          .entries(data);
+
+          var ocolor = "red";
+          var orig = svg.append('g')
+                        .attr("class", "bubble")
+                        .attr("id","orig_id")
+                        .selectAll("circle")
+                        .data(nestedo)
+                        .enter()
+                        .append("circle")
+                        .attr('cx', function(d) { return d.values['x']; })
+                        .attr('cy', function(d) { return d.values['y']; })
+                        .attr('r', function(d) {
+                          if (d.values['city'].length <= m1) {
+                            return 2;
+                          }
+                          if (d.values['city'].length > m1 & d.values['city'].length <= m2) {
+                            return 2.5;
+                          }
+                          if (d.values['city'].length > m2 & d.values['city'].length <= m3) {
+                            return 3;
+                          }
+                          if (d.values['city'].length > m3 & d.values['city'].length <= m4) {
+                            return 3.5;
+                          }
+                          if (d.values['city'].length > m4 & d.values['city'].length <= m5) {
+                            return 4;
+                          }
+                          if (d.values['city'].length > m5 & d.values['city'].length <= m6) {
+                            return 6;
+                          }
+                        })
+                        .style("fill",ocolor)
+                        .attr('stroke-width',1)
+                        .attr('opacity',1)
+                        .on("mouseover", mouseovero)
+                        .on("mouseout", mouseout);
+
+          function mouseovero(d) {
+            d3.select(this).style("fill", "black");
+            var mousecoord = [0,0];
+            mousecoord = d3.mouse(this);
+            var flag = 0;
+
+            var text1 = svg.append('g')
+                           .selectAll("text")
+                           .data(nestedo)
+                           .enter()
+                           .append("text")                  // append text
+                           .attr("id", "myText1")
+                           .attr("x", mousecoord[0])
+                           .attr("y", mousecoord[1])
+                           .attr("dy", -7)                 // set y position of bottom of text
+                           .style('fill', 'darkBlack')    // fill the text with the colour black
+                           .attr("text-anchor", "middle")
+                           .attr("font-family","sans-serif")
+                           .attr("font-weight","bold")
+                           .attr("font-size",16)
+                           .text(function(d) {               // define the text to display
+                             if ((Math.abs(d.values['x'] - mousecoord[0]) < 10) &&
+                                (Math.abs(d.values['y'] - mousecoord[1]) < 10) &&
+                                (flag == 0)) {
+                                  flag = 1;
+                                  return d.values['city'][0];
+                                }
+                             });
+          };
+
+          function mouseoverd(d) {
+            d3.select(this).style("fill", "black");
+            var mousecoord = [0,0];
+            mousecoord = d3.mouse(this);
+            var flag = 0;
+
+            var text1 = svg.append('g')
+                           .selectAll("text")
+                           .data(nestedd)
+                           .enter()
+                           .append("text")
+                           .attr("id", "myText")
+                           .attr("x", mousecoord[0])
+                           .attr("y", mousecoord[1])
+                           .attr("dy", -7)              // set y position of bottom of text
+                           .style('fill', 'darkBlack')    // fill the text with the colour black
+                           .attr("text-anchor", "middle")
+                           .attr("font-family","sans-serif")
+                           .attr("font-size",16)
+                           .attr("font-weight","bold")
+                           .text(function(d) {
+                             if ((Math.abs(d.values['x'] - mousecoord[0]) < 10) &&
+                                (Math.abs(d.values['y'] - mousecoord[1]) < 10) &&
+                                (flag == 0)) {
+                                  flag = 1;
+                                  return d.values['city'][0];
+                                }
+                            }); // define the text to display
+          };
+
+          function mouseout(d) {
+            d3.selectAll("#myText").remove();
+            d3.selectAll("#myText1").remove();
+            d3.select(this).style("fill", "red");
+            var mousecoord = [0,0];
+            mousecoord = d3.mouse(this);
+          };
+
+          // for Destination circle logic
+          var nestedd = d3.nest()
+                          .key(function(d) {
+                            if ((d['ArrDelay'] >= min_delay) && (d['ArrDelay'] <= max_delay)) {
+                              return d['Dest'];
+                            }
+                            })
+                            .rollup(function(leaves) {
+                              var coords = leaves.map(function(d) {
+                                return projection([+d.DLongitude, +d.DLatitude]);
+                              });
+                              var city = leaves.map(function(d) {
+                                return d['DCity']
+                              });
+                              var center_x = d3.mean(coords, function(d) {
+                                return d[0];
+                              });
+                              var center_y = d3.mean(coords, function(d) {
+                                return d[1];
+                              });
+                              return {
+                                'x'      : center_x,
+                                'y'      : center_y,
+                                'city' : city
+                              }
+                            })
+                            .entries(data);
+
+          var dcolor = "red";
+          var dest = svg.append('g')
+                        .attr("class", "bubble")
+                        .attr("id","dest_id")
+                        .selectAll("circle")
+                        .data(nestedd)
+                        .enter()
+                        .append("circle")
+                        .attr('cx', function(d) { return d.values['x']; })
+                        .attr('cy', function(d) { return d.values['y']; })
+                        .attr('r', function(d) {
+                          if (d.values['city'].length <= m1) {
+                            return 2;
+                          }
+                          if (d.values['city'].length > m1 & d.values['city'].length <= m2) {
+                            return 2.5;
+                          }
+                          if (d.values['city'].length > m2 & d.values['city'].length <= m3) {
+                            return 3;
+                          }
+                          if (d.values['city'].length > m3 & d.values['city'].length <= m4) {
+                            return 3.5;
+                          }
+                          if (d.values['city'].length > m4 & d.values['city'].length <= m5) {
+                            return 4;
+                          }
+                          if (d.values['city'].length > m5 & d.values['city'].length <= m6) {
+                            return 6;
+                          }
+                        })
+                        .style("fill",dcolor)
+                 //       .attr('stroke','blue')
+                        .attr('stroke-width',1)
+                        .attr('opacity',1)
+                        .on("mouseover", mouseoverd)
+                        .on("mouseout", mouseout);
+
+          draw_arc(data);
+        };
+
+        function draw_arc(data) {
+          var count = 0;
+          var perc  = 0;
+          for(var i=0, len=data.length; i<len; i++) {
+            if ((data[i]['ArrDelay'] >= min_delay) && (data[i]['ArrDelay'] <= max_delay) ) {
+              count += 1
+              links.push( {
+                type: "LineString",
+                coordinates: [
+                  [ data[i].OLongitude, data[i].OLatitude],
+                  [ data[i].DLongitude, data[i].DLatitude]
+                ]
               });
-            var city = leaves.map(function(d) {
-                return d['OCity']
-              });
-            var center_x = d3.mean(coords, function(d) {
-                return d[0];
-            });
-            var center_y = d3.mean(coords, function(d) {
-              return d[1];
-            });
-            return {
-              'x'       : center_x,
-              'y'       : center_y,
-              'city'    : city
             }
-            })
-            .entries(data);
-    var orig = svg.append('g')
-                  .attr("class", "bubble")
-                  .attr("id","orig_id")
-                  .selectAll("circle")
-                  .data(nestedo)
-                  .enter()
-                  .append("circle")
-                  .attr('cx', function(d) { return d.values['x']; })
-                  .attr('cy', function(d) { return d.values['y']; })
-                 // .attr('r', function(d) { return (d.values['weight'].length)/100 })
-                  .attr('r', function(d) {
-                    if (d.values['city'].length <= m1) {
-                      return 2;
-                    }
-                    if (d.values['city'].length > m1 & d.values['city'].length <= m2) {
-                      return 2.5;
-                    }
-                   if (d.values['city'].length > m2 & d.values['city'].length <= m3) {
-                      return 3;
-                    }
-                    if (d.values['city'].length > m3 & d.values['city'].length <= m4) {
-                      return 3.5;
-                    }
-                    if (d.values['city'].length > m4 & d.values['city'].length <= m5) {
-                      return 4;
-                    }
-                    if (d.values['city'].length > m5 & d.values['city'].length <= m6) {
-                      return 5;
-                    }
-                   })
-                  .style("fill","red")
-                  .attr('stroke','blue')
-                  .attr('stroke-width',1)
-                  .attr('opacity',1)
-                  .on("mouseover", mouseovero)
-                  .on("mouseout", mouseout);
-    function mouseovero(d) {
-      d3.select(this).style("fill", "white");
-      var mousecoord = [0,0];
-      mousecoord = d3.mouse(this);
-      var flag = 0;
+          }
 
-      var text1 = svg.append('g')
-             .selectAll("text")
-             .data(nestedo)
-             .enter()
-             .append("text")                  // append text
-             .attr("id", "myText1")
-             .attr("x", mousecoord[0])
-             .attr("y", mousecoord[1])
-             .attr("dy", -7)        // set y position of bottom of text
-             .style("fill", "purple")    // fill the text with the colour black
-             .attr("text-anchor", "middle")
-             .attr("font-family","sans-serif")
-             .attr("font-size",16)
-             .text(function(d) {               // define the text to display
-               if ((Math.abs(d.values['x'] - mousecoord[0]) < 5) &&
-               (Math.abs(d.values['y'] - mousecoord[1]) < 5) &&
-               (flag == 0)) {
-                 flag = 1;
-                 return d.values['city'][0];
-               }
-             });
-        };
-    function mouseoverd(d) {
-      d3.select(this).style("fill", "white");
-      var mousecoord = [0,0];
-      mousecoord = d3.mouse(this);
-      var flag = 0;
-      var text1 = svg.append('g')
-             .selectAll("text")
-             .data(nestedd)
-             .enter()
-             .append("text")
-             .attr("id", "myText")
-             .attr("x", mousecoord[0])
-             .attr("y", mousecoord[1])
-             .attr("dy", -7)            // set y position of bottom of text
-             .style("fill", "purple")    // fill the text with the colour black
-             .attr("text-anchor", "middle")
-             .attr("font-family","sans-serif")
-             .attr("font-size",16)
-             .text(function(d) {
-               if ((Math.abs(d.values['x'] - mousecoord[0]) < 5) &&
-                 (Math.abs(d.values['y'] - mousecoord[1]) < 5) &&
-                 (flag == 0)) {
-                   flag = 1;
-                   return d.values['city'][0];
-                  }
-             }); // define the text to display
-      };
-        function mouseout(d) {
-          d3.selectAll("#myText").remove();
-          d3.selectAll("#myText1").remove();
-          d3.select(this).style("fill", "red");
-          var mousecoord = [0,0];
-          mousecoord = d3.mouse(this);
-        };
-    // for Destination circle logic
-    var nestedd = d3.nest()
-            .key(function(d) {
-              if ((d['ArrDelay'] >= min_delay) && (d['ArrDelay'] <= max_delay)) {
-              return d['Dest'];
-              }
-            })
-            .rollup(function(leaves) {
-              var coords = leaves.map(function(d) {
-                return projection([+d.DLongitude, +d.DLatitude]);
-              });
-              var city = leaves.map(function(d) {
-                return d['DCity']
-              });
-              var center_x = d3.mean(coords, function(d) {
-                return d[0];
-              });
-              var center_y = d3.mean(coords, function(d) {
-                return d[1];
-              });
-              return {
-                'x'      : center_x,
-                'y'      : center_y,
-                'city' : city
-              }
-            })
-            .entries(data);
+          perc = (count / data.length) * 100;
+          var lineTransition = function lineTransition(path) {
+            path.transition()
+            .duration(5500)   //NOTE: Change this number (in ms) to make lines draw faster or slower
+            .attrTween("stroke-dasharray", flightpath)
+          };
+// Bar chart logic.
+          barRect = svg.append("rect")
+                       .attr("x", 400)
+                       .attr("y", bary)
+                       .attr("width", perc)
+                       .attr("height", 20)
+                       .attr("fill", "white")
+                       .attr("id", "barrect");
+        
+          var flightpath = function flightpath() {
+            var len = this.getTotalLength(),
+            interpolate = d3.interpolateString("0," + len, len + "," + len);
+            return function(t) { return interpolate(t); };
+          };
 
-     var dest = svg.append('g')
-                .attr("class", "bubble")
-                .attr("id","dest_id")
-                .selectAll("circle")
-                .data(nestedd)
-                .enter()
-                .append("circle")
-                .attr('cx', function(d) { return d.values['x']; })
-                .attr('cy', function(d) { return d.values['y']; })
-                .attr('r', function(d) {
-                    if (d.values['city'].length <= m1) {
-                      return 2;
-                    }
-                    if (d.values['city'].length > m1 & d.values['city'].length <= m2) {
-                      return 2.5;
-                    }
-                   if (d.values['city'].length > m2 & d.values['city'].length <= m3) {
-                      return 3;
-                    }
-                    if (d.values['city'].length > m3 & d.values['city'].length <= m4) {
-                      return 3.5;
-                    }
-                    if (d.values['city'].length > m4 & d.values['city'].length <= m5) {
-                      return 4;
-                    }
-                    if (d.values['city'].length > m5 & d.values['city'].length <= m6) {
-                      return 5;
-                    }
-                   })
-
-                .style("fill","red")
-                .attr('stroke','blue')
-                .attr('stroke-width',1)
-                .attr('opacity',1)
-                .on("mouseover", mouseoverd)
-                .on("mouseout", mouseout);
-        draw_arc(data);
-    };
-    function radius() {
-
-    }
-    function draw_arc(data) {
-      var count = 0;
-      var perc  = 0;
-      for(var i=0, len=data.length; i<len; i++) {
-      if ((data[i]['ArrDelay'] >= min_delay) && (data[i]['ArrDelay'] <= max_delay) ) {
-        count += 1
-        links.push( {
-          type: "LineString",
-          coordinates: [
-            [ data[i].OLongitude, data[i].OLatitude],
-            [ data[i].DLongitude, data[i].DLatitude]
-          ]
-        });
-      }
-    }
-
-    perc = (count / data.length) * 100;
-    var lineTransition = function lineTransition(path) {
-      path.transition()
-      .duration(5500)   //NOTE: Change this number (in ms) to make lines draw faster or slower
-      .attrTween("stroke-dasharray", flightpath)
-    };
-        var flightpath = function flightpath() {
-          var len = this.getTotalLength(),
-          interpolate = d3.interpolateString("0," + len, len + "," + len);
-          return function(t) { return interpolate(t); };
-        };
-
-    svg.selectAll(".arc").remove();
-
+        svg.selectAll(".arc").remove();
+// flight path logic.
         var pathArcs = arcGroup.selectAll(".arc")
-                    .data(links)
-                    .enter()
-                    .append("path")
-                    .attr({
-                      d: path
-                    })
-                    .attr('opacity',0.8)
-                    .attr({
-                      'class': class_del
-                    })
-                    .call(lineTransition);
+                               .data(links)
+                               .enter()
+                               .append("path")
+                               .attr({
+                                 d: path
+                               })
+                               .attr('opacity',arcop)
+                               .attr({
+                                 'class': class_del
+                               })
+                               .call(lineTransition);
+
         svg.append("text")
            .attr("x", x_txt)
            .attr("y", y_txt)
            .text(+(Math.round(perc + "e+2")  + "e-2"))
+           .style('fill', 'darkOrange')
            .attr("font-size",20)
            .attr("font-family","serif")
            .attr("font-weight","bold");
-    svg.append("text")
-       .attr("x", x_txt + 45 )
-       .attr("y", y_txt)
-       .text("%")
-       .attr("font-size",20)
-       .attr("font-family","serif")
-       .attr("font-weight","bold");
+
+        svg.append("text")
+           .attr("x", x_txt + 45 )
+           .attr("y", y_txt)
+           .text("%")
+           .attr("font-size",20)
+           .style('fill', 'darkOrange')
+           .attr("font-family","serif")
+           .attr("font-weight","bold");
         }
-    d3.csv("2008-new_X.csv",plot_points);
-    var intervalFunctions = [ button1_click, button2_click, button3_click, button4_click ];
-    var intervalIndex = 0;
-    var int1 = setInterval(function() {
-                 intervalFunctions[intervalIndex++ % intervalFunctions.length]();
-                 if (intervalIndex == 4) {
-                      clearInterval(int1)
-                }
-            }, 6000);
+// initial animation logic.        
+        d3.csv("2008-new_X.csv",plot_points);
+        var intervalFunctions = [ button1_click, button2_click, button3_click, button4_click, original];
+        var intervalIndex = 0;
+        var int1 = setInterval(function() {
+                     intervalFunctions[intervalIndex++ % intervalFunctions.length]();
+                     if (intervalIndex == 5) {
+                       clearInterval(int1)
+                     }
+                   }, 6000);
       };
-      </script>
-  </head>
+    </script>
+</head>
+
+
 <body>
   <script type="text/javascript">
     /*Use D3 to load the GeoJSON file*/
